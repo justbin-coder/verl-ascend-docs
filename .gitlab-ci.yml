@@ -1,0 +1,21 @@
+# 指定 Docker 镜像，使用 Node.js 环境
+image: node:lts
+
+# 定义缓存，避免每次都重新下载依赖，加快构建速度
+cache:
+  paths:
+    - node_modules/
+
+# 定义 Pages 部署任务
+pages:
+  stage: deploy
+  script:
+    - npm install           # 1. 安装依赖
+    - npm run docs:build    # 2. 构建静态网站 (默认生成在 .vitepress/dist)
+    - rm -rf public         # 3. 清理旧目录
+    - mv .vitepress/dist public # 4. GitCode Pages 默认读取 public 目录
+  artifacts:
+    paths:
+      - public  # 告诉 GitCode 这个目录是网站产物
+  only:
+    - master    # 只有推送到 master 分支时才触发

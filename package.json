@@ -1,0 +1,23 @@
+{
+  "name": "verl-ascend-docs",
+  "version": "1.0.0",
+  "description": "昇腾VERL官方文档中心。致力于为开发者提供最全面、精准、易于上手的学习资源，涵盖从快速入门到性能调优的全链路实践，助力在昇腾硬件上高效玩转VERL训练框架。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitcode.com/Justbin/verl-ascend-docs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}

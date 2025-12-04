@@ -1,0 +1,64 @@
+# 这里的名字随便起，显示在 Actions 页面
+name: Deploy VitePress site to Pages
+
+on:
+  # 当推送到 master 分支时触发
+  push:
+    branches: [master]
+
+  # 允许手动触发
+  workflow_dispatch:
+
+# 设置权限，允许 Actions 修改仓库内容 (发布 Pages 需要)
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 定义并发策略，防止多次推送导致构建冲突
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # 构建任务
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 如果没用到 Last Updated 功能，可以设为 1 加快速度
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Install dependencies
+        run: npm ci # 比 npm install 更干净快速
+
+      - name: Build with VitePress
+        run: npm run docs:build # 确保你的 package.json 里是 "vitepress build docs"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist # 指定构建产物的路径
+
+  # 部署任务
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

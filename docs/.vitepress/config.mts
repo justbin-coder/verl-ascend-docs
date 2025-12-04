@@ -4,24 +4,28 @@ export default defineConfig({
   title: "Verl-Ascend Docs",
   description: "Verl-Ascend 全栈开发文档",
   
-  // 忽略死链接检查（防止你还没创建文件时报错）
+  // 1. 【关键修改】GitHub Pages 必须配置 base 路径
+  // 格式为: /仓库名称/ (注意前后都要有斜杠)
+  base: '/verl-ascend-docs/', 
+
+  // 忽略死链接检查
   ignoreDeadLinks: true,
 
   themeConfig: {
     siteTitle: 'Verl-Ascend 文档中心',
 
-    // 顶部导航栏：保持极简，只留首页和GitHub
+    // 2. 【修改】将顶部导航链接更新为 GitHub 地址
+    // 请将链接中的 YourUsername 替换为你实际的 GitHub 用户名
     nav: [
       { text: '首页', link: '/' },
-      { text: 'GitHub/GitCode', link: 'https://gitcode.com/Justbin/verl-ascend-docs' }
+      { text: 'GitHub 仓库', link: 'https://github.com/justbin-coder/verl-ascend-docs' }
     ],
 
-    // 侧边栏：核心改动在这里
-    // 使用数组结构，代表这是“全局侧边栏”，所有页面都显示这个目录
+    // 侧边栏保持不变
     sidebar: [
       {
         text: '🚀 快速入门',
-        collapsed: false, // 默认展开
+        collapsed: false,
         items: [
           { text: '项目简介', link: '/intro/about' },
           { text: '环境安装', link: '/intro/install' },
@@ -39,7 +43,7 @@ export default defineConfig({
       },
       {
         text: '🔥 进阶案例',
-        collapsed: true, // 默认折叠，保持界面整洁
+        collapsed: true,
         items: [
           { text: '多机多卡训练', link: '/advanced/multi-node' },
           { text: '混合精度调优', link: '/advanced/amp' },
@@ -72,13 +76,20 @@ export default defineConfig({
       }
     ],
 
+    // 3. 【修改】更新右上角的小图标链接到 GitHub
     socialLinks: [
-      { icon: 'github', link: 'https://gitcode.com/Justbin/verl-ascend-docs' }
+      { icon: 'github', link: 'https://github.com/justbin-coder/verl-ascend-docs' }
     ],
     
     // 开启本地搜索
     search: {
       provider: 'local'
+    },
+
+    // 推荐添加：页脚信息
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2024 Verl-Ascend Team'
     }
   }
 })
